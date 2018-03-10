@@ -6,13 +6,20 @@
 #include <util/twi.h>
 
 #include "i2c_master.h"
+#include "../serial.h"
 
 #define F_SCL 100000UL // SCL frequency
 #define Prescaler 1
 #define TWBR_val ((((F_CPU / F_SCL) / Prescaler) - 16 ) / 2)
 
 void i2c_init(void) {
+    send_int("Setting TWBR_val to: %d\n", TWBR_val);
 	TWBR = (uint8_t)TWBR_val;
+    TWSR = 0x00;
+    TWCR = 0x04;
+
+    // Set pull up resistors
+    PORTC =_BV(PC4) | _BV(PC5);
 }
 
 uint8_t i2c_start(uint8_t address) {
@@ -84,7 +91,9 @@ uint8_t i2c_transmit(uint8_t address, uint8_t* data, uint16_t length) {
 	}
 	
 	for (uint16_t i = 0; i < length; i++) {
-		if (i2c_write(data[i])) return 1;
+		if (i2c_write(data[i])) {
+            return 1;
+        }
 	}
 	
 	i2c_stop();
@@ -93,7 +102,9 @@ uint8_t i2c_transmit(uint8_t address, uint8_t* data, uint16_t length) {
 }
 
 uint8_t i2c_receive(uint8_t address, uint8_t* data, uint16_t length) {
-	if (i2c_start(address | I2C_READ)) return 1;
+	if (i2c_start(address | I2C_READ)) {
+        return 1;
+    }
 	
 	for (uint16_t i = 0; i < (length-1); i++) {
 		data[i] = i2c_read_ack();
@@ -106,12 +117,16 @@ uint8_t i2c_receive(uint8_t address, uint8_t* data, uint16_t length) {
 }
 
 uint8_t i2c_writeReg(uint8_t devaddr, uint8_t regaddr, uint8_t* data, uint16_t length) {
-	if (i2c_start(devaddr | 0x00)) return 1;
+	if (i2c_start(devaddr | 0x00)) {
+        return 1;
+    }
 
 	i2c_write(regaddr);
 
 	for (uint16_t i = 0; i < length; i++) {
-		if (i2c_write(data[i])) return 1;
+		if (i2c_write(data[i])) {
+            return 1;
+        }
 	}
 
 	i2c_stop();
@@ -126,7 +141,9 @@ uint8_t i2c_readReg(uint8_t devaddr, uint8_t regaddr, uint8_t* data, uint16_t le
 
 	i2c_write(regaddr);
 
-	if (i2c_start(devaddr | 0x01)) return 1;
+	if (i2c_start(devaddr | 0x01)) {
+        return 1;
+    }
 
 	for (uint16_t i = 0; i < (length-1); i++) {
 		data[i] = i2c_read_ack();

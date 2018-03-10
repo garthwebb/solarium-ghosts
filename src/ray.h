@@ -28,6 +28,12 @@ typedef struct ray {
     beam_t *beams[NUM_BEAMS];
 } ray_t;
 
+typedef struct ray_list {
+    ray_t** rays;
+    uint8_t length;
+} ray_list_t;
+
+ray_list_t* build_rays_from_devices(device_list_t *devices);
 ray_t* create_ray(uint8_t red_addr, uint8_t green_addr, uint8_t blue_addr);
 void set_beam_rgb(ray_t *ray, uint8_t num, uint8_t red, uint8_t green, uint8_t blue);
 void update_ray(ray_t *ray);

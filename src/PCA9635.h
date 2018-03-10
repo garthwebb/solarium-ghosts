@@ -115,6 +115,12 @@ typedef struct device {
     uint8_t value[NUM_VALUES];
 } device_t;
 
+typedef struct device_list {
+    uint8_t addresses[128];
+    uint8_t length;
+} device_list_t;
+
+device_list_t* probe_devices(void);
 device_t* create_device(uint8_t addr);
 void clear_values(device_t *device);
 void init_device(device_t *device);

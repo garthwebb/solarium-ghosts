@@ -17,17 +17,33 @@ int main() {
 
     send("Init complete\n");
 
-    ray_t *ray = create_ray(81, 82, 83);
-
-    send("Ray created\n");
-
-    ray->size = 16;
-    for (uint8_t i = 0; i < NUM_BEAMS; i++) {
-        set_beam_rgb(ray, i, 0, 0, 128);
+    device_list_t *devices = probe_devices();
+    if (devices != NULL) {
+        send_int("Found %d devices\n", devices->length);
+    } else {
+        send("== NO DEVICES FOUND ON BUS ==\n\n");
+        return 1;
     }
-    update_ray(ray);
 
-    send("Ray updated\n\n");
+    ray_list_t *ray_list = build_rays_from_devices(devices);
+    if (ray_list != NULL) {
+        send_int("Created %d ray(s)\n", ray_list->length);
+    } else {
+        send("== FAILED TO CREATE RAYS ==\n\n");
+        return 1;
+    }
+
+    ray_t *ray;
+    for (int ray_idx = 0; ray_idx < ray_list->length; ray_idx++) {
+        ray = ray_list->rays[ray_idx];
+
+        for (uint8_t beam_idx = 0; beam_idx < NUM_BEAMS; beam_idx++) {
+            set_beam_rgb(ray, beam_idx, 128, 255, 0);
+        }
+        update_ray(ray);
+    }
+
+    send("Rays updated\n\n");
 
     int count = 0;
     uint8_t red = 127;

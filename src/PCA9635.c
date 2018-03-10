@@ -7,6 +7,39 @@
 #include "i2c/i2c_master.h"
 #include "serial.h"
 
+#define TO_WRITE_ADDR(addr) (addr << 1)
+#define TO_READ_ADDR(addr) ((addr << 1) + 1)
+
+device_list_t* probe_devices() {
+    send("Probing for devices ...\n");
+    device_list_t *list = (device_list_t *) malloc(sizeof(device_list_t));
+
+    list->length = 0;
+
+    for (uint8_t addr = 0; addr < 128; addr++) {
+        if (addr == ADR_ALLCALL) {
+            continue;
+        }
+        if (addr == ADR_SWRESET) {
+            continue;
+        }
+
+        // Non-zero return means no ACK
+        if (i2c_start(TO_WRITE_ADDR(addr))) {
+            continue;
+        }
+
+        // Finish this do-nothing command
+        i2c_stop();
+
+        send_int("-- %d found\n", addr);
+        list->addresses[list->length] = addr;
+        list->length++;
+    }
+
+    return list;
+}
+
 device_t* create_device(uint8_t addr) {
     device_t *device = (device_t *) malloc(sizeof(device_t));
 
@@ -14,8 +47,8 @@ device_t* create_device(uint8_t addr) {
 
     // The LSB of the address determines whether the PCA9635 is being written to (0)
     // or read from (1)
-    device->write_addr = addr << 1;
-    device->read_addr = (addr << 1) + 1;
+    device->write_addr = TO_WRITE_ADDR(addr);
+    device->read_addr = TO_READ_ADDR(addr);
 
     clear_values(device);
 
@@ -50,7 +83,7 @@ void init_device(device_t *device) {
 
 uint8_t write_register(device_t *device, uint8_t reg, uint8_t val) {
     if (i2c_start(device->write_addr)) {
-        send("Send did not go well\n\n");
+        send_int("Send to addr %d did not go well\n\n", device->write_addr);
         return 0;
     }
     if (i2c_write(reg)) {

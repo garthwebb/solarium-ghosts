@@ -5,11 +5,18 @@
 #include <stdlib.h>
 #include "PCA9635.h"
 #include "i2c/i2c_master.h"
+#include "serial.h"
 
 device_t* create_device(uint8_t addr) {
     device_t *device = (device_t *) malloc(sizeof(device_t));
 
     device->addr = addr;
+
+    // The LSB of the address determines whether the PCA9635 is being written to (0)
+    // or read from (1)
+    device->write_addr = addr << 1;
+    device->read_addr = (addr << 1) + 1;
+
     clear_values(device);
 
     init_device(device);
@@ -42,7 +49,8 @@ void init_device(device_t *device) {
 }
 
 uint8_t write_register(device_t *device, uint8_t reg, uint8_t val) {
-    if (i2c_start(device->addr)) {
+    if (i2c_start(device->write_addr)) {
+        send("Send did not go well\n\n");
         return 0;
     }
     if (i2c_write(reg)) {
@@ -56,5 +64,5 @@ uint8_t write_register(device_t *device, uint8_t reg, uint8_t val) {
 
 void update_device(device_t *device) {
     // Update the device by writing all values to it in one message
-    i2c_writeReg(device->addr, AUTO_INCREMENT_BRIGHTNESS_REGISTER, device->value, NUM_VALUES);
+    i2c_writeReg(device->write_addr, AUTO_INCREMENT_BRIGHTNESS_REGISTER, device->value, NUM_VALUES);
 }

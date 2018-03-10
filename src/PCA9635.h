@@ -108,6 +108,8 @@
 typedef struct device {
     // The i2c address for this device
     uint8_t addr;
+    uint8_t write_addr;
+    uint8_t read_addr;
 
     // Each device controls 16 LEDs
     uint8_t value[NUM_VALUES];

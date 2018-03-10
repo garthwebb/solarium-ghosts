@@ -23,13 +23,27 @@ int main() {
 
     ray->size = 16;
     for (uint8_t i = 0; i < NUM_BEAMS; i++) {
-        set_beam_rgb(ray, i, 127, 0, 255);
+        set_beam_rgb(ray, i, 0, 0, 128);
     }
     update_ray(ray);
 
     send("Ray updated\n\n");
 
+    int count = 0;
+    uint8_t red = 127;
+    uint8_t green = 0;
+    uint8_t blue = 255;
     while (1) {
+        /*
+        for (uint8_t i = 0; i < NUM_BEAMS; i++) {
+            set_beam_rgb(ray, i, red, green, blue);
+        }
+        update_ray(ray);
 
+        count++;
+        red = (red+count)%256;
+        green = (green+count)%256;
+        blue = (blue+count)%256;
+         */
     }
 }

@@ -20,16 +20,16 @@ SET(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 SET(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 
 add_executable(Solarium_Ghosts
-        src/main.c
-        src/main.h
-        src/beam.c
-        src/beam.h
+        src/full-ray-beam/main.c
+        src/full-ray-beam/main.h
+        src/full-ray-beam/beam.c
+        src/full-ray-beam/beam.h
         src/lib/PCA9635.c
         src/lib/PCA9635.h
         src/lib/serial.c
         src/lib/serial.h
-        src/ray.c
-        src/ray.h
+        src/full-ray-beam/ray.c
+        src/full-ray-beam/ray.h
         src/lib/i2c_master.c
         src/lib/i2c_master.h
         )

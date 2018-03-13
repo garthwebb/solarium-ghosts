@@ -4,7 +4,7 @@
 
 #include <stdlib.h>
 #include "ray.h"
-#include "lib/serial.h"
+#include "../lib/serial.h"
 
 ray_list_t* build_rays_from_devices(device_list_t *devices) {
     // There are three devices per ray (R, G, B)

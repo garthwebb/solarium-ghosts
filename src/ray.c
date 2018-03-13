@@ -4,6 +4,7 @@
 
 #include <stdlib.h>
 #include "ray.h"
+#include "serial.h"
 
 ray_list_t* build_rays_from_devices(device_list_t *devices) {
     // There are three devices per ray (R, G, B)
@@ -26,9 +27,14 @@ ray_t* create_ray(uint8_t red_addr, uint8_t green_addr, uint8_t blue_addr) {
     ray_t *ray = (ray_t *) malloc(sizeof(ray_t));
     ray->size = NUM_BEAMS;
 
+    send("-- creating red device\n");
+
     ray->devices[DEVICE_RED] = create_device(red_addr);
+    send("-- creating green device\n");
     ray->devices[DEVICE_GREEN] = create_device(green_addr);
+    send("-- creating blue device\n");
     ray->devices[DEVICE_BLUE] = create_device(blue_addr);
+    send("-- done\n");
 
     for (int i = 0; i < NUM_BEAMS; i++) {
         ray->beams[i] = create_beam(
@@ -36,8 +42,12 @@ ray_t* create_ray(uint8_t red_addr, uint8_t green_addr, uint8_t blue_addr) {
                 &(ray->devices[DEVICE_GREEN]->value[i]),
                 &(ray->devices[DEVICE_BLUE]->value[i])
         );
+        if (ray->beams[i] == NULL) {
+            send("!!! Could not create beam\n");
+        }
     }
 
+    send("-- ray created\n");
     return ray;
 }
 
@@ -46,6 +56,14 @@ void set_beam_rgb(ray_t *ray, uint8_t num, uint8_t red, uint8_t green, uint8_t b
     *(ray->beams[num]->green) = green;
     *(ray->beams[num]->blue) = blue;
 }
+
+void set_beam_hsv(ray_t *ray, uint8_t num, float hue, float value, float saturation) {
+    ray->beams[num]->hue = hue;
+    ray->beams[num]->value = value;
+    ray->beams[num]->saturation = saturation;
+    copyHSVToRGB(ray->beams[num]);
+}
+
 
 void update_ray(ray_t *ray) {
     for (int i = 0; i < NUM_DEVICES; i++) {

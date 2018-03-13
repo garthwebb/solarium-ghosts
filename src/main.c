@@ -2,6 +2,7 @@
 // Created by Garth Webb on 3/8/18.
 //
 
+#include <stdlib.h>
 #include "main.h"
 #include "i2c/i2c_master.h"
 #include "ray.h"
@@ -32,34 +33,49 @@ int main() {
         send("== FAILED TO CREATE RAYS ==\n\n");
         return 1;
     }
+    free(devices);
 
     ray_t *ray;
     for (int ray_idx = 0; ray_idx < ray_list->length; ray_idx++) {
         ray = ray_list->rays[ray_idx];
 
         for (uint8_t beam_idx = 0; beam_idx < NUM_BEAMS; beam_idx++) {
-            set_beam_rgb(ray, beam_idx, 128, 255, 0);
+            //set_beam_rgb(ray, beam_idx, (beam_idx*MAX_LED_VALUE)/NUM_BEAMS, 0, 0);
+            set_beam_hsv(ray, beam_idx, (beam_idx*360)/NUM_BEAMS, 1.0, 0);
         }
         update_ray(ray);
     }
 
     send("Rays updated\n\n");
 
-    int count = 0;
-    uint8_t red = 127;
-    uint8_t green = 0;
-    uint8_t blue = 255;
-    while (1) {
-        /*
-        for (uint8_t i = 0; i < NUM_BEAMS; i++) {
-            set_beam_rgb(ray, i, red, green, blue);
-        }
-        update_ray(ray);
+    int color[16] = {0, 0, 0, 0,
+                     0, 0, 0, 0,
+                     0, 0, 0, 0,
+                     0, 0, 0, 0};
 
-        count++;
-        red = (red+count)%256;
-        green = (green+count)%256;
-        blue = (blue+count)%256;
-         */
+    while (1) {
+        for (uint8_t beam_idx = 0; beam_idx < NUM_BEAMS; beam_idx++) {
+            incr_beam_hue(ray_list->rays[0]->beams[beam_idx], 1);
+            /*
+            switch(color[beam_idx]) {
+                case 0:
+                    if (incr_beam_red(ray_list->rays[0]->beams[beam_idx])){
+                        color[beam_idx] = (color[beam_idx]+1) % 3;
+                    }
+                    break;
+                case 1:
+                    if (incr_beam_green(ray_list->rays[0]->beams[beam_idx])) {
+                        color[beam_idx] = (color[beam_idx]+1) % 3;
+                    }
+                    break;
+                case 2:
+                default:
+                    if (incr_beam_blue(ray_list->rays[0]->beams[beam_idx])) {
+                        color[beam_idx] = (color[beam_idx]+1) % 3;
+                    }
+            }
+             */
+        }
+        update_ray(ray_list->rays[0]);
     }
 }

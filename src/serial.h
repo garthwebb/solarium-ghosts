@@ -14,5 +14,6 @@
 void init_serial(void);
 void send(const char *string);
 void send_int(const char* string, uint8_t val);
+void send_long(const char* string, long val);
 
 #endif //GRINDER_CONTROLLER_SERIAL_H

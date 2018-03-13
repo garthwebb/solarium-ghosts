@@ -35,3 +35,8 @@ void send_int(const char* string, uint8_t val) {
     sprintf(buf, string, val);
     send(buf);
 }
+
+void send_long(const char* string, long val) {
+    sprintf(buf, string, val);
+    send(buf);
+}

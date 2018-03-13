@@ -62,7 +62,7 @@ TARGET = main
 
 # List C source files here. (C dependencies are automatically generated.)
 #SRC = $(TARGET).c usiTwiSlave.c i2cCommands.c
-SRC = $(TARGET).c beam.c PCA9635.c ray.c i2c/i2c_master.c serial.c
+SRC = $(TARGET).c beam.c lib/PCA9635.c ray.c lib/i2c_master.c lib/serial.c
 
 
 # List Assembler source files here.

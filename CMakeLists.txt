@@ -24,12 +24,12 @@ add_executable(Solarium_Ghosts
         src/main.h
         src/beam.c
         src/beam.h
-        src/PCA9635.c
-        src/PCA9635.h
-        src/serial.c
-        src/serial.h
+        src/lib/PCA9635.c
+        src/lib/PCA9635.h
+        src/lib/serial.c
+        src/lib/serial.h
         src/ray.c
         src/ray.h
-        src/i2c/i2c_master.c
-        src/i2c/i2c_master.h
+        src/lib/i2c_master.c
+        src/lib/i2c_master.h
         )

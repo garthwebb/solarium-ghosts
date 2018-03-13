@@ -7,7 +7,7 @@
 
 #include <stdint.h>
 
-#include "PCA9635.h"
+#include "lib/PCA9635.h"
 #include "beam.h"
 
 #define NUM_DEVICES 3

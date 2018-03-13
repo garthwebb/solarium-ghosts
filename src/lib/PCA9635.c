@@ -4,7 +4,7 @@
 
 #include <stdlib.h>
 #include "PCA9635.h"
-#include "i2c/i2c_master.h"
+#include "i2c_master.h"
 #include "serial.h"
 
 #define TO_WRITE_ADDR(addr) (addr << 1)

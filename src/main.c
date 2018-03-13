@@ -4,9 +4,9 @@
 
 #include <stdlib.h>
 #include "main.h"
-#include "i2c/i2c_master.h"
+#include "lib/i2c_master.h"
 #include "ray.h"
-#include "serial.h"
+#include "lib/serial.h"
 
 void init() {
     init_serial();

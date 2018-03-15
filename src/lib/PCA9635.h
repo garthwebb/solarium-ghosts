@@ -96,14 +96,15 @@
 
 // High speed mode
 
-// Sub addresses are programmable via the REG_SUBADRX register.  These are the
+// Sub list are programmable via the REG_SUBADRX register.  These are the
 // default startup values for these and can be changed.  Disabled by default
 #define ADR_SUBADR1 0x71
 #define ADR_SUBADR2 0x72
 #define ADR_SUBADR3 0x74
 
 // Each PCA9635 controls 16 LED values
-#define NUM_VALUES 16
+#define NUM_LED_VALUES 16
+#define MAX_DEVICES 128
 
 typedef struct device {
     // The i2c address for this device
@@ -112,20 +113,26 @@ typedef struct device {
     uint8_t read_addr;
 
     // Each device controls 16 LEDs
-    uint8_t value[NUM_VALUES];
+    uint8_t value[NUM_LED_VALUES];
 } device_t;
 
+typedef struct device_address_list {
+    uint8_t list[MAX_DEVICES];
+    uint8_t length;
+} device_address_list_t;
+
 typedef struct device_list {
-    uint8_t addresses[128];
+    device_t **list;
     uint8_t length;
 } device_list_t;
 
-device_list_t* probe_devices(void);
+device_list_t* create_device_list(void);
+device_address_list_t* probe_devices(void);
 device_t* create_device(uint8_t addr);
 void clear_values(device_t *device);
 void init_device(device_t *device);
 uint8_t write_register(device_t *device, uint8_t reg, uint8_t val);
 void update_device(device_t *device);
-
+void update_devices(device_list_t *devices);
 
 #endif //SOLARIUM_GHOSTS_PCA9635_H

@@ -32,4 +32,6 @@ add_executable(Solarium_Ghosts
         src/full-ray-beam/ray.h
         src/lib/i2c_master.c
         src/lib/i2c_master.h
-        )
+        src/basic-device/main.c
+        src/basic-device/main.h
+        src/basic-device/led.c src/basic-device/led.h)

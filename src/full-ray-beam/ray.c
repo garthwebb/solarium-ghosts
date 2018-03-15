@@ -6,7 +6,7 @@
 #include "ray.h"
 #include "../lib/serial.h"
 
-ray_list_t* build_rays_from_devices(device_list_t *devices) {
+ray_list_t* build_rays_from_devices(device_address_list_t *devices) {
     // There are three devices per ray (R, G, B)
     uint8_t num_rays = devices->length/3;
     ray_list_t *ray_list = (ray_list_t *) malloc(sizeof(ray_list_t));
@@ -15,9 +15,9 @@ ray_list_t* build_rays_from_devices(device_list_t *devices) {
     ray_list->length = num_rays;
 
     for (uint8_t i = 0; i < num_rays; i++) {
-        ray_list->rays[i] = create_ray(devices->addresses[i],
-                                       devices->addresses[i+1],
-                                       devices->addresses[i+2]);
+        ray_list->rays[i] = create_ray(devices->list[i],
+                                       devices->list[i+1],
+                                       devices->list[i+2]);
     }
 
     return ray_list;

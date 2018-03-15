@@ -18,7 +18,7 @@ int main() {
 
     send("Init complete\n");
 
-    device_list_t *devices = probe_devices();
+    device_address_list_t *devices = probe_devices();
     if (devices != NULL) {
         send_int("Found %d devices\n", devices->length);
     } else {

@@ -11,6 +11,9 @@
 // set baud rate value for UBRR
 #define BAUD_RATE ((F_CPU/(16L*BAUD))-1L)
 
+#define DEBUG(msg) (send(msg))
+
+
 void init_serial(void);
 void send(const char *string);
 void send_int(const char* string, uint8_t val);

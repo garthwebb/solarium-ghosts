@@ -1,6 +1,6 @@
 # Hey Emacs, this is a -*- makefile -*-
 #----------------------------------------------------------------------------
-# WinAVR Makefile Template written by Eric B. Weddington, Jörg Wunsch, et al.
+# WinAVR Makefile Template written by Eric B. Weddington, Jï¿½rg Wunsch, et al.
 #
 # Released to the Public Domain
 #
@@ -62,7 +62,7 @@ TARGET = main
 
 # List C source files here. (C dependencies are automatically generated.)
 #SRC = $(TARGET).c usiTwiSlave.c i2cCommands.c
-SRC = $(TARGET).c beam.c ../lib/PCA9635.c ray.c ../lib/i2c_master.c ../lib/serial.c
+SRC = $(TARGET).c led.c ../lib/PCA9635.c ../lib/i2c_master.c ../lib/serial.c
 
 
 # List Assembler source files here.
@@ -104,7 +104,7 @@ CSTANDARD = -std=gnu99
 
 
 # Place -D or -U options here
-CDEFS = -DF_CPU=$(F_CPU)UL
+CDEFS = -DF_CPU=$(F_CPU)UL -DDEBUG_MODE=1
 
 
 # Place -I options here

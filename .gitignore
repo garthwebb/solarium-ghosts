@@ -57,3 +57,5 @@ cmake-build-debug
 *.eep
 *.lss
 *.sym
+
+.DS_Store

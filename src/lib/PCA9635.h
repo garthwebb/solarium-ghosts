@@ -104,7 +104,10 @@
 
 // Each PCA9635 controls 16 LED values
 #define NUM_LED_VALUES 16
-#define MAX_DEVICES 128
+
+#define MAX_RAYS 6
+#define DEVICES_PER_RAY 3
+#define MAX_DEVICES (MAX_RAYS * DEVICES_PER_RAY)
 
 typedef struct device {
     // The i2c address for this device
@@ -122,7 +125,7 @@ typedef struct device_address_list {
 } device_address_list_t;
 
 typedef struct device_list {
-    device_t **list;
+    device_t* list[MAX_DEVICES];
     uint8_t length;
 } device_list_t;
 

@@ -6,15 +6,15 @@ from i2c import I2C
 
 class Solarium(LightBase):
 
-    def __init__(self, **kwargs):
-        super(Solarium, self).__init__(**kwargs)
+    def __init__(self, args):
+        super(Solarium, self).__init__(args)
 
         i2c = I2C()
         addresses = i2c.scan_bus()
         self.rays = []
         self.led_values = None
 
-        for base_addr in addresses.count()/3:
+        for base_addr in range(0, len(addresses)/3, 3):
             ray = Ray(i2c, base_addr, base_addr + 1, base_addr + 2)
             self.rays.append(ray)
 

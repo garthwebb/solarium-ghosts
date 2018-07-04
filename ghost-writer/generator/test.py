@@ -5,7 +5,7 @@ class Test(Base):
 
     def __init__(self):
         super(Test, self).__init__()
-        self.led_values = [[[0, 0, 0]]*16]*8
+        self.led_values = [[[0, 0, 0] for _ in range(16)] for _ in range(8)]
 
     def get_next_frame(self, addresses):
         for ray in range(8):

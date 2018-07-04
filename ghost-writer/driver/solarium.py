@@ -14,13 +14,13 @@ class Solarium(LightBase):
 
         i2c = I2C()
         addresses = i2c.scan_bus()
-        logger.debug("Found addresses: {}".format(addresses))
+        logger.debug("Found device addresses: {}".format(addresses))
 
         self.rays = []
         self.led_values = None
 
-        for base_addr in range(0, len(addresses)/3, 3):
-            ray = Ray(i2c, base_addr, base_addr + 1, base_addr + 2)
+        for idx in range(0, len(addresses)/3, 3):
+            ray = Ray(i2c, addresses[idx], addresses[idx+1], addresses[idx+2])
             self.rays.append(ray)
 
     def set_leds(self, led_values):

@@ -29,6 +29,12 @@ def main():
         help='Sets the LED generator to generate each frame of light data'
     )
     parser.add_argument(
+        '--fps',
+        dest='fps',
+        default=None,
+        help='Sets the fps for the show'
+    )
+    parser.add_argument(
         '--verbose',
         dest='verbose',
         action='store_true',
@@ -52,6 +58,9 @@ def main():
 
     if args.generator_name:
         show.set_generator(args.generator_name)
+
+    if args.fps:
+        show.init_frame_rate(args.fps)
 
     # if args.server_port >= 0:
     #     run_server(show, port=args.server_port)

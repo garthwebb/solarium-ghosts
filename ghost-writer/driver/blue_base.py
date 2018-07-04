@@ -1,0 +1,4 @@
+
+
+class BlueBase(object):
+    pass

@@ -24,7 +24,7 @@ class Controller(object):
         self.init_frame_rate(self.DEFAULT_FPS)
 
         self.generator = None
-        self.generators = None
+        self.generators = []
         self.load_generators()
 
     def init_frame_rate(self, fps):

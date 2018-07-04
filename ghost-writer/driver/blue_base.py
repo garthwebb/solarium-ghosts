@@ -1,4 +1,6 @@
 
 
 class BlueBase(object):
-    pass
+
+    def get_addresses(self):
+        pass

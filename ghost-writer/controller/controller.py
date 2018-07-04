@@ -26,7 +26,7 @@ class Controller(object):
         self.generator = None
         self.current_generator = None
         self.current_args = None
-        self.generators = []
+        self.generators = {}
         self.load_generators()
 
     def init_frame_rate(self, fps):
@@ -119,7 +119,7 @@ class Controller(object):
         if not self.generator:
             return
         try:
-            leds = self.generator.get_next_frame(self.bt.get_addresses())
+            leds = self.generator.get_next_frame(self.blue_driver.get_addresses())
         except KeyboardInterrupt:
             raise
         except Exception as err:

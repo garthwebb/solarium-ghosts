@@ -31,5 +31,6 @@ class Solarium(LightBase):
 
     def send_data(self):
         for idx, ray_leds in enumerate(self.led_values):
-            ray = self.rays[idx]
-            ray.write_leds(ray_leds)
+            if idx < len(self.rays):
+                ray = self.rays[idx]
+                ray.write_leds(ray_leds)

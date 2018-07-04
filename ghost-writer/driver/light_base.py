@@ -1,7 +1,7 @@
 
 
 class LightBase(object):
-    MAX_LED_VALUE = 256
+    MAX_LED_VALUE = 255
 
     def __init__(self, args):
         pass

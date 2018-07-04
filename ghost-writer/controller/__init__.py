@@ -1,1 +1,1 @@
-from controller.i2c import I2C
+from controller import Controller

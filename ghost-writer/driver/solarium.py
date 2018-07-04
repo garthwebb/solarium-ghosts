@@ -1,7 +1,10 @@
-from driver import LightBase
+import logging
 
+from driver import LightBase
 from ray import Ray
 from i2c import I2C
+
+logger = logging.getLogger('solarium')
 
 
 class Solarium(LightBase):
@@ -11,6 +14,8 @@ class Solarium(LightBase):
 
         i2c = I2C()
         addresses = i2c.scan_bus()
+        logger.debug("Found addresses: {}".format(addresses))
+
         self.rays = []
         self.led_values = None
 

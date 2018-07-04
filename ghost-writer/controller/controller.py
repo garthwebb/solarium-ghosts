@@ -24,6 +24,8 @@ class Controller(object):
         self.init_frame_rate(self.DEFAULT_FPS)
 
         self.generator = None
+        self.current_generator = None
+        self.current_args = None
         self.generators = []
         self.load_generators()
 
@@ -68,7 +70,7 @@ class Controller(object):
         Raises `ValueError` if processor is unknown.
         """
         self.generator = self.build_generator(generator_name, generator_args)
-        self.current_processor = generator_name
+        self.current_generator = generator_name
         self.current_args = generator_args
 
     def build_generator(self, name, args=None):

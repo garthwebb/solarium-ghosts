@@ -50,6 +50,9 @@ def main():
     show.set_light_driver(args.light_driver, {})
     show.set_blue_driver(args.blue_driver, {})
 
+    if args.generator_name:
+        show.set_generator(args.generator_name)
+
     # if args.server_port >= 0:
     #     run_server(show, port=args.server_port)
 

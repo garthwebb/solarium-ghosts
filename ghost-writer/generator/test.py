@@ -2,17 +2,20 @@ from base import Base
 
 
 class Test(Base):
+
+    def __init__(self):
+        super(Test, self).__init__()
+        self.led_values = [[[0, 0, 0]]*16]*8
+
     def get_next_frame(self, addresses):
-        led_values = []
-
         for ray in range(8):
-            led_values[ray] = led_values[ray] or []
             for n in range(16):
-                led_values[ray][n] = led_values[ray][n] or [0, 0, 0]
-                led_values[ray][n][0] += 1
-                led_values[ray][n][1] += 2
-                led_values[ray][n][2] += 3
+                self.led_values[ray][n][0] += 1
+                self.led_values[ray][n][1] += 2
+                self.led_values[ray][n][2] += 3
 
-                led_values[ray][n][0] = led_values[ray][n][0] & 0xFF
-                led_values[ray][n][1] = led_values[ray][n][1] & 0xFF
-                led_values[ray][n][2] = led_values[ray][n][2] & 0xFF
+                self.led_values[ray][n][0] = self.led_values[ray][n][0] & 0xFF
+                self.led_values[ray][n][1] = self.led_values[ray][n][1] & 0xFF
+                self.led_values[ray][n][2] = self.led_values[ray][n][2] & 0xFF
+
+        return self.led_values

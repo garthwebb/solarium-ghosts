@@ -60,7 +60,7 @@ def main():
         show.set_generator(args.generator_name)
 
     if args.fps:
-        show.init_frame_rate(args.fps)
+        show.init_frame_rate(int(args.fps))
 
     # if args.server_port >= 0:
     #     run_server(show, port=args.server_port)

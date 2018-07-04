@@ -17,6 +17,12 @@ def main():
         help='Sets the lighting driver to use when writing LED data (default "solarium")'
     )
     parser.add_argument(
+        '--blue-driver',
+        dest='blue_driver',
+        default='blue',
+        help='Sets the lighting driver to use when writing LED data (default "blue")'
+    )
+    parser.add_argument(
         '--generator',
         dest='generator_name',
         default=None,
